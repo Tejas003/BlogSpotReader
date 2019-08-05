@@ -54,17 +54,24 @@ while True:
 
 	soup2 = BeautifulSoup(url2,'lxml')
 
-	for head in soup2.find_all('div', class_='post hentry uncustomized-post-template'):
+	divs = soup2.find_all('div', class_='post hentry uncustomized-post-template')
 
-		heading = head.h3.text
-		#writing heading to file
-		fhandle.write(f'\n\n---------------------------------------------------------------------\n')
-		fhandle.write(f'Heading {heading}\n')
-	
-		for i in soup2.find_all('div', class_='post-body entry-content'):
-			i2 = i.text.replace('\n\n\n','\n').strip()
-			#witing data
-			fhandle.write(f'\n\n{i["id"]}\n{i2}')
+	for div in divs:
+		divs2 = div.find('div', class_='post-body entry-content')
+		h3 = div.find('h3', class_='post-title entry-title')
+		h3text = h3.text
+
+		text = divs2.text
+		text = text.replace('\n\n\n','\n')
+
+		#print('\n\----------------------------------------------------------------------n')
+		#print(h3.text)
+		#print(text)
+		#print('\n\----------------------------------------------------------------------n')
+
+		#witing data
+		fhandle.write('\n\n---------------------------------------------------------------')
+		fhandle.write(f'\n\n{h3.text}\n\n{text}')
 
 
 
